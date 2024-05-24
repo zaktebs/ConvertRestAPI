@@ -1,0 +1,256 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ECM Integration",
+    "description": "API for qrcodeapi.tebsdemo.com",
+    "version": "0.0.3",
+    "contact": {}
+  },
+  "servers": [
+    {
+      "url": "ITECMCSFATC101.sar.com.sa/otcs/cs.exe/api"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "OTCSTicket": {
+        "type": "apiKey",
+        "name": "OTCSTicket",
+        "in": "header"
+      }
+    },
+    "schemas": {
+      "categories_V2EmptyResponse": {
+        "type": "object",
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_V2DataLinks"
+            }
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_V2EmptyResults"
+            }
+          }
+        }
+      },
+      "categories_V2DataLinks": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_V2Links"
+            }
+          }
+        }
+      },
+      "categories_V2Links": {
+        "type": "object",
+        "properties": {
+          "self": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_V2Link"
+            }
+          }
+        }
+      },
+      "categories_V2Link": {
+        "type": "object",
+        "properties": {
+          "body": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "href": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "categories_V2EmptyResults": {
+        "type": "object"
+      },
+      "categories_CategoriesInfo": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Category information",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_CategoriesInfoData"
+            }
+          },
+          "definitions": {
+            "$ref": "#/components/schemas/categories_Definitions"
+          },
+          "definitions_order": {
+            "description": "Default order of the fields defined in data",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "definitions_map": {
+            "$ref": "#/components/schemas/categories_DefinitionsMap"
+          }
+        }
+      },
+      "categories_CategoriesInfoData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "Category ID",
+            "type": "integer"
+          },
+          "name": {
+            "description": "Display name",
+            "type": "string"
+          }
+        }
+      },
+      "categories_CategoryInfo": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "description": "Category information",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/categories_CategoryInfoData"
+            }
+          },
+          "definitions": {
+            "$ref": "#/components/schemas/categories_Definitions"
+          },
+          "definitions_order": {
+            "description": "Default order of the fields defined in data",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "definitions_map": {
+            "$ref": "#/components/schemas/categories_DefinitionsMap"
+          }
+        }
+      },
+      "categories_CategoryInfoData": {
+        "type": "object",
+        "properties": {
+          "{attribute_key}": {
+            "description": "Attribute value",
+            "type": "string"
+          }
+        }
+      },
+      "categories_ActionData": {
+        "type": "object"
+      },
+      "categories_Definitions": {
+        "type": "object"
+      },
+      "categories_DefinitionsMap": {
+        "type": "object"
+      }
+    },
+    "parameters": {
+      "suppress_response_codes": {
+        "in": "query",
+        "name": "suppress_response_codes",
+        "description": "Forces the server to always return a HTTP Response of '200 OK'. The data returned from the call will have an additional integer feature named 'statusCode', which will contain the actual status code (the 'statusCode' feature will be added regardless of whether the REST API call was successful or not).<br><br>NOTE: This parameter does not require a value, so it should be specified as <ul><li><b>[Query String]:</b><code>?suppress_response_codes</code></li><li><b>[Form Body (where the value is an empty string)]</b>: <code>suppress_response_codes = </code></li></ul>",
+        "schema": {
+          "type": "string",
+          "nullable": true
+        },
+        "allowEmptyValue": true
+      }
+    }
+  },
+  "paths": {
+    "/v2/nodes/{id}/categories/{category_id}/": {
+      "put": {
+        "operationId": "updateCategory2",
+        "summary": "Update a category on a node",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Node ID",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true
+          },
+          {
+            "name": "category_id",
+            "description": "Category ID",
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "{category_id}_3": {
+                    "description": "",
+                    "type": "string"
+                  },
+                  "{category_id}_11": {
+                    "description": "",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/categories_V2EmptyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "-Invalid datatype specified for argument 'category_id'-Parameters are required for PUT, POST, and PATCH methods-Category ID '{category_id}' was specified for Categories Update, but a non-matching attribute ('{attribute_key}') was found-Could not process object, invalid action 'categories-update'-The REST API URL could not be found in the mappings registry"
+          },
+          "401": {
+            "description": "Authentication Required"
+          },
+          "409": {
+            "description": "Could not update metadata (edit conflict)."
+          },
+          "500": {
+            "description": "Could not get a node for {id}"
+          }
+        },
+        "tags": [
+          "categories"
+        ]
+      }
+    }
+  },
+  "security": []
+}
